@@ -166,7 +166,7 @@ public class SlaveFailoverTest {
                                             MySQLConfiguration configuration) {
         return MYSQL_RUNNER.runMysqlScript(mysqlSlave,
                 configuration,
-                new File("src/test/resources/" + SlaveFailoverTest.MYSQL_SLAVE_INIT_SCRIPT).getAbsolutePath(),
+                new File("mysql-replicator/src/test/resources/" + SlaveFailoverTest.MYSQL_SLAVE_INIT_SCRIPT).getAbsolutePath(),
                 ImmutableMap.of("MASTER_HOSTNAME", mysqlMaster.getContainer().getContainerInfo().getConfig().getHostName(),
                         "MASTER_USER", MYSQL_USERNAME,
                         "MASTER_PASSWORD", MYSQL_PASSWORD),
@@ -211,7 +211,7 @@ public class SlaveFailoverTest {
         boolean execBinLog = MYSQL_RUNNER.runMysqlScript(
                 mysqlMaster,
                 mySQLMasterConfiguration,
-                new File("src/test/resources/" + SlaveFailoverTest.MYSQL_TEST_SCRIPT).getAbsolutePath(),
+                new File("mysql-replicator/src/test/resources/" + SlaveFailoverTest.MYSQL_TEST_SCRIPT).getAbsolutePath(),
                 Collections.emptyMap(),
                 false
         );
@@ -233,7 +233,7 @@ public class SlaveFailoverTest {
         boolean execBinLog2 = MYSQL_RUNNER.runMysqlScript(
                 mysqlMaster,
                 mySQLMasterConfiguration,
-                new File("src/test/resources/" + SlaveFailoverTest.MYSQL_SLAVE2_TEST_SCRIPT).getAbsolutePath(),
+                new File("mysql-replicator/src/test/resources/" + SlaveFailoverTest.MYSQL_SLAVE2_TEST_SCRIPT).getAbsolutePath(),
                 Collections.emptyMap(),
                 false
         );

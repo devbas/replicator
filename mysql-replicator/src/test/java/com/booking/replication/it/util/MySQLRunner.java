@@ -7,7 +7,7 @@ import com.mysql.jdbc.Driver;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.testcontainers.shaded.org.apache.commons.lang.text.StrSubstitutor;
+import org.apache.commons.lang.text.StrSubstitutor;
 
 import java.io.BufferedReader;
 import java.io.File;

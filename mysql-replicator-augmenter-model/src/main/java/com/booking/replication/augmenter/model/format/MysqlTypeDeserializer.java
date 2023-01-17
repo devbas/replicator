@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.stream.IntStream;
 
-import javax.xml.bind.DatatypeConverter;
+// import javax.xml.bind.DatatypeConverter;
 
 public class MysqlTypeDeserializer {
 
@@ -39,6 +39,7 @@ public class MysqlTypeDeserializer {
     private static final Long UNSIGNED_MEDIUMINT_MASK   = 0x0000000000FFFFFFL;
     private static final Long UNSIGNED_INT_MASK         = 0x00000000FFFFFFFFL;
     private static final Long DEFAULT_MASK              = 0xFFFFFFFFFFFFFFFFL;
+    private static final char[] HEX_CODE = "0123456789ABCDEF".toCharArray();
 
     static {
         DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -62,7 +63,8 @@ public class MysqlTypeDeserializer {
                     byte[] bytes = (byte[]) cellValue;
 
                     if (bytes.length == columnSchema.getCharMaxLength()) {
-                        return DatatypeConverter.printHexBinary(bytes);
+                        // return DatatypeConverter.printHexBinary(bytes);
+                        return printHexBinary(bytes);
                     } else {
                         byte[] bytesWithPadding = new byte[columnSchema.getCharMaxLength()];
 
@@ -70,7 +72,8 @@ public class MysqlTypeDeserializer {
                             bytesWithPadding[i] = (i < bytes.length) ? bytes[i] : 0;
                         }
 
-                        return DatatypeConverter.printHexBinary(bytesWithPadding);
+                        // return DatatypeConverter.printHexBinary(bytesWithPadding);
+                        return printHexBinary(bytesWithPadding);
                     }
                 }
 
@@ -79,7 +82,8 @@ public class MysqlTypeDeserializer {
                 case BLOB:
                 case LONGBLOB: {
                     byte[] bytes = (byte[]) cellValue;
-                    return DatatypeConverter.printHexBinary(bytes);
+                    // return DatatypeConverter.printHexBinary(bytes);
+                    return printHexBinary(bytes);
                 }
 
                 case CHAR:
@@ -222,7 +226,8 @@ public class MysqlTypeDeserializer {
 
                     if (cellValue instanceof byte[]) {
                         byte[] bytes = (byte[]) cellValue;
-                        return DatatypeConverter.printHexBinary(bytes);
+                        // return DatatypeConverter.printHexBinary(bytes);
+                        return printHexBinary(bytes);
                     }
 
                     LOG.error(String.format("The datatype is %s hence returning null", dataType.getCode()));
@@ -238,5 +243,14 @@ public class MysqlTypeDeserializer {
     private static Long maskAndGet(Serializable cellValue, Long mask) {
         Long longValue = ((Number) cellValue).longValue();
         return longValue & mask;
+    }
+
+    private static String printHexBinary(byte[] data) {
+        StringBuilder r = new StringBuilder(data.length * 2);
+        for (byte b : data) {
+            r.append(HEX_CODE[(b >> 4) & 0xF]);
+            r.append(HEX_CODE[(b & 0xF)]);
+        }
+        return r.toString();
     }
 }

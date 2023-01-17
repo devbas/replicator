@@ -187,6 +187,11 @@
             <artifactId>jetty-servlet</artifactId>
             <version>9.4.14.v20181114</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -197,7 +202,7 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <compilerId>groovy-eclipse-compiler</compilerId>
+                    <!-- <compilerId>groovy-eclipse-compiler</compilerId> -->
                 </configuration>
                 <dependencies>
                     <dependency>
